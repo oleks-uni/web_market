@@ -1,0 +1,6 @@
+*env
+venv*
+db*
+__pycache__*
+__init__*
+migrations/
