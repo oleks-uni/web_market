@@ -21,17 +21,26 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
     def validate(self, attr):
-        price = attr.get('price_per_one_item')
+        price = round(attr.get('price_per_one_item'), 2)
         amount = attr.get('amount')
         expires_at = attr.get('expires_at')
 
-        if expires_at < date.today():
-            raise serializers.ValidationError({
-                'error': f"You cannot add an expired item. You got: '{expires_at}' / Today's date '{date.today()}'"
-                })
-        if price < 0:
-            raise serializers.ValidationError(f"Price cannot be less than 0. You got: {price}") 
-        if amount < 0:
-            raise serializers.ValidationError(f"Amount cannot be less than 0. You got: {amount}")
-        
+        if expires_at:
+            if expires_at < date.today():
+                raise serializers.ValidationError({
+                    'error': f"You cannot add an expired item. You got: '{expires_at}' / Today's date '{date.today()}'"
+                    })
+   
+        if price or price == 0:
+            if price < 0:
+                raise serializers.ValidationError({
+                    "error": f"Price cannot be less than 0. You got: {price}"
+                    })
+
+        if amount:
+            if amount < 0:
+                raise serializers.ValidationError({
+                    "error": f"Amount cannot be less than 0. You got: {amount}"
+                    })
+ 
         return attr
