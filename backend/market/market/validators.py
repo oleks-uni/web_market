@@ -20,7 +20,7 @@ def get_object_or_404(klass, *args, **kwargs):
     queryset = _get_queryset(klass)
     if not hasattr(queryset, "get"):
         raise ValidationError({
-            "error": "Cannot procced the request"
+            "error": "Cannot process the request"
         })
     try:
         return queryset.get(*args, **kwargs)
