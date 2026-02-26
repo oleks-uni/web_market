@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializer import ItemSerializer
 from .models import ItemModel
+from market.validators import get_object_or_404
 
 class ItemCreateView(APIView):
     
@@ -22,7 +23,7 @@ class ItemCreateView(APIView):
 class ItemDetailView(APIView):
 
     def get_item(self, id):
-        item = ItemModel.objects.get(pk=id)
+        item = get_object_or_404(ItemModel, id=id)
         return item
     
 
